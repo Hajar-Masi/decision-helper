@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Decision Helper</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f7f7f7;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      min-height: 100vh;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .container {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 420px;
+      text-align: center;
+    }
+
+    h1 {
+      margin-bottom: 1rem;
+    }
+
+    input, button {
+      padding: 0.6rem;
+      margin: 0.3rem 0;
+      width: 100%;
+      box-sizing: border-box;
+      font-size: 1rem;
+    }
+
+    button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+      margin-top: 1rem;
+    }
+
+    li {
+      background: #e9ecef;
+      margin: 0.2rem 0;
+      padding: 0.5rem;
+      border-radius: 4px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .actions button {
+      flex: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎯 Decision Helper</h1>
+    <form id="decision-form">
+      <input type="text" id="city" placeholder="🏙️ Enter city (e.g. Rabat)" required>
+      <input type="text" id="activity" placeholder="🥽 Enter activity (e.g. Shopping)" required>
+      <input type="text" id="suggestion" placeholder="💡 Add a suggestion...">
+      <button type="submit">Add</button>
+    </form>
+
+    <ul id="suggestion-list"></ul>
+
+    <div class="actions">
+      <button onclick="pickRandom()">🎲 Pick for me!</button>
+      <button onclick="clearAll()">🗑️ Clear All</button>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('decision-form');
+    const suggestionInput = document.getElementById('suggestion');
+    const suggestionList = document.getElementById('suggestion-list');
+    const cityInput = document.getElementById('city');
+    const activityInput = document.getElementById('activity');
+
+    form.addEventListener('submit', function(event) {
+      event.preventDefault(); // empêche le rechargement
+
+      const value = suggestionInput.value.trim();
+      if (value !== '') {
+        const li = document.createElement('li');
+        li.textContent = value;
+        suggestionList.appendChild(li);
+        suggestionInput.value = '';
+      }
+    });
+
+    function pickRandom() {
+      const items = suggestionList.querySelectorAll('li');
+      if (items.length === 0) {
+        alert("No suggestions to choose from!");
+        return;
+      }
+      const index = Math.floor(Math.random() * items.length);
+      const selected = items[index].textContent;
+      alert(`You should do: ${selected} in ${cityInput.value} for ${activityInput.value}`);
+    }
+
+    function clearAll() {
+      suggestionList.innerHTML = '';
+      cityInput.value = '';
+      activityInput.value = '';
+      suggestionInput.value = '';
+    }
+  </script>
+</body>
+</html>
